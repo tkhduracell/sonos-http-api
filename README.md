@@ -395,6 +395,7 @@ Experimental support for TTS. Today the following providers are available:
 
 * AWS Polly
 * Elevenlabs
+* Google Gemini
 * OpenAI
 * macOS say command
 
@@ -569,6 +570,35 @@ Example:
 	/Office/say/Hej, maten är klar/sv-se/90
 
 The language code doesn't matter as OpenAI will determine the language from the text. This may not always be correct but the probability increases with longer texts.
+
+#### Google Gemini
+
+Uses Google's Gemini 2.5 TTS models for high-quality speech synthesis. Requires a Gemini API key from https://aistudio.google.com/apikey.
+
+Minimal config:
+```json
+{
+  "geminiKey": "your-gemini-api-key"
+}
+```
+
+This uses the `gemini-2.5-flash-preview-tts` model with the `Kore` voice by default. To customize the voice or model:
+
+```json
+{
+  "geminiKey": "your-gemini-api-key",
+  "gemini": {
+    "voice": "Puck",
+    "model": "gemini-2.5-pro-preview-tts"
+  }
+}
+```
+
+Available voices: Zephyr, Puck, Charon, Kore, Fenrir, Leda, Orus, Aoede, Callirrhoe, Autonoe, Enceladus, Iapetus, Umbriel, Algieba, Despina, Erinome, Algenib, Rasalgethi, Laomedeia, Achernar, Alnilam, Schedar, Gacrux, Pulcherrima, Achird, Zubenelgenubi, Vindemiatrix, Sadachbia, Sadaltager, Sulafat.
+
+Available models: `gemini-2.5-flash-preview-tts` (faster), `gemini-2.5-pro-preview-tts` (higher quality).
+
+The language is auto-detected from the text. Supports 100+ languages.
 
 #### macOS say command
 On macOS the "say" command can be used for text to speech. If your installation runs on macOS you can activate the system TTS by giving an empty configuration:
