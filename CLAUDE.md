@@ -17,5 +17,32 @@ Added comprehensive Docker usage documentation to the README and improved the CI
 - Added summary step that outputs the final image digest
 - These improvements enable users to reference images by their exact content hash
 
+# Environment Variable Configuration Support
+
+## Overview
+Added support for configuring the Sonos HTTP API via environment variables, enabling flexible deployment across different environments without modifying configuration files.
+
+## Changes
+
+### Environment Variable Interpolation (lib/helpers/try-load-json.js)
+- Added `interpolateEnvVars()` function to recursively process settings.json
+- Supports `${ENV_VAR}` and `${ENV_VAR:-default}` syntax for string interpolation
+- Automatically coerces single-expression variables to numbers (e.g., `${PORT}` → `8080` as number)
+- Handles missing variables by logging warnings and returning original placeholder
+
+### Environment Override Mechanism (settings.js)
+- Added `SONOS_*` prefixed environment variable support for all top-level settings
+- Converts `SONOS_SETTING_NAME` → `settingName` (snake_case to camelCase)
+- Auto-coerces string values to booleans (`true`/`false`) and numbers as appropriate
+- Takes highest priority: `SONOS_*` env vars override `settings.json` which overrides built-in defaults
+- Enables containerized deployments (Docker, Kubernetes) without file modifications
+
+### README Documentation (README.md)
+- Added "Environment variables" section with clear examples
+- Two usage patterns documented: interpolation in settings.json and SONOS_* overrides
+- Complete reference table mapping 27 environment variables to settings keys
+- Second table for nested settings requiring JSON5 interpolation (auth, https, service credentials)
+- Docker example showing how to pass environment variables at runtime
+
 ## Future Work
 - Once CI successfully publishes images to ghcr.io, update README to reference the GHCR image path
