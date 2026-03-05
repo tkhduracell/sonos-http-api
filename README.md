@@ -331,11 +331,6 @@ Available options are:
 Example:
 ```json
 	{
-	  "voicerss": "Your api key for TTS with voicerss",
-	  "microsoft": {
-	    "key": "Your api for Bing speech API",
-	    "name": "ZiraRUS"
-	  },
 	  "port": 5005,
 	  "ip": "0.0.0.0",
 	  "securePort": 5006,
@@ -398,121 +393,13 @@ Say (TTS support)
 
 Experimental support for TTS. Today the following providers are available:
 
-* voicerss
-* Microsoft Cognitive Services (Bing Text to Speech API)
 * AWS Polly
-* Google (default)
-* macOS say command
 * Elevenlabs
+* macOS say command
 
 It will use the one you configure in settings.json. If you define settings for multiple TTS services, it will not be guaranteed which one it will choose!
 
-#### VoiceRSS
-
-This REQUIRES a registered API key from voiceRSS! See http://www.voicerss.org/ for info.
-
-You need to add this to a file called settings.json (create if it doesn't exist), like this:
-
-```
-{
-  "voicerss": "f5e77e1d42063175b9219866129189a3"
-}
-```
-
-Replace the code above (it is just made up) with the api-key you've got after registering.
-
-Action is:
-
-	/[Room name]/say/[phrase][/[language_code]][/[announce volume]]
-	/sayall/[phrase][/[language_code]][/[announce volume]]
-
-Example:
-
-	/Office/say/Hello, dinner is ready
-	/Office/say/Hej, maten är klar/sv-se
-	/sayall/Hello, dinner is ready
-	/Office/say/Hello, dinner is ready/90
-	/Office/say/Hej, maten är klar/sv-se/90
-
-language code needs to be before volume if specified.
-
 Sayall will group all players, set 40% volume (by default) and then try and restore everything as the way it where. Please try it out, it will probably contain glitches but please report detailed descriptions on what the problem is (starting state, error that occurs, and the final state of your system).
-
-The supported language codes are:
-
-| Language code | Language |
-| ------------- | -------- |
-| ca-es | Catalan  |
-| zh-cn | Chinese (China) |
-| zh-hk |Chinese (Hong Kong) |
-| zh-tw | Chinese (Taiwan) |
-| da-dk | Danish |
-| nl-nl | Dutch |
-| en-au | English (Australia) |
-| en-ca | English (Canada) |
-| en-gb | English (Great Britain) |
-| en-in | English (India) |
-| en-us | English (United States) |
-| fi-fi | Finnish |
-| fr-ca | French (Canada) |
-| fr-fr | French (France) |
-| de-de | German |
-| it-it | Italian |
-| ja-jp | Japanese |
-| ko-kr | Korean |
-| nb-no | Norwegian |
-| pl-pl | Polish |
-| pt-br | Portuguese (Brazil) |
-| pt-pt | Portuguese (Portugal) |
-| ru-ru | Russian |
-| es-mx | Spanish (Mexico) |
-| es-es | Spanish (Spain) |
-| sv-se | Swedish (Sweden) |
-
-#### Microsoft
-This one also requires a registered api key. You can sign up for free here: https://www.microsoft.com/cognitive-services/en-US/subscriptions?mode=NewTrials and select "Bing Speech - Preview".
-
-The following configuration is available (the entered values except key are default, and may be omitted):
-
-```json
-	{
-	  "microsoft": {
-	    "key": "Your api for Bing speech API",
-	    "name": "ZiraRUS"
-	  }
-	}
-```
-
-You change language by specifying a voice name correlating to the desired language.
-Name should be specified according to this list: https://www.microsoft.com/cognitive-services/en-us/speech-api/documentation/API-Reference-REST/BingVoiceOutput#SupLocales
-where name is the right most part of the voice font name (without optional Apollo suffix). Example:
-
-`Microsoft Server Speech Text to Speech Voice (ar-EG, Hoda)` name should be specified as `Hoda`
-
-`Microsoft Server Speech Text to Speech Voice (de-DE, Stefan, Apollo)` name should be specified as `Stefan`
-
-`Microsoft Server Speech Text to Speech Voice (en-US, BenjaminRUS)` name should be specified as `BenjaminRUS`
-
-Action is:
-
-	/[Room name]/say/[phrase][/[name]][/[announce volume]]
-	/sayall/[phrase][/[name]][/[announce volume]]
-
-Example:
-
-	/Office/say/Hello, dinner is ready
-	/Office/say/Hello, dinner is ready/BenjaminRUS
-	/Office/say/Guten morgen/Stefan
-	/sayall/Hello, dinner is ready
-	/Office/say/Hello, dinner is ready/90
-	/Office/say/Guten morgen/Stefan/90
-
-Supported voices are:
-
- Hoda, Naayf, Ivan, HerenaRUS, Jakub, Vit, HelleRUS, Michael, Karsten, Hedda, Stefan, Catherine, Linda, Susan, George, Ravi, ZiraRUS, BenjaminRUS, Laura, Pablo, Raul, Caroline, Julie, Paul, Cosimo, Ayumi, Ichiro, Daniel, Irina, Pavel, HuihuiRUS, Yaoyao, Kangkang, Tracy, Danny, Yating, Zhiwei
-
-See https://www.microsoft.com/cognitive-services/en-us/speech-api/documentation/API-Reference-REST/BingVoiceOutput#SupLocales to identify
-which language and gender it maps against. If your desired voice is not in the list of supported one, raise an issue about adding it or send me a PR.
 
 #### AWS Polly
 
@@ -652,71 +539,6 @@ Full:
 	  }
 	}
 ```
-
-#### Google (default if no other has been configured)
-
-Does not require any API keys. Please note that Google has been known in the past to change the requirements for its Text-to-Speech API, and this may stop working in the future. There is also limiations to how many requests one is allowed to do in a specific time period.
-
-The following language codes are supported
-
-| Language code | Language |
-| ------------- | -------- |
-| af | Afrikaans |
-| sq | Albanian |
-| ar | Arabic |
-| hy | Armenian |
-| bn | Bengali |
-| ca | Catalan |
-| zh | Chinese |
-| zh-cn | Chinese (Mandarin/China) |
-| zh-tw | Chinese (Mandarin/Taiwan) |
-| zh-yue | Chinese (Cantonese) |
-| hr | Croatian |
-| cs | Czech |
-| da | Danish |
-| nl | Dutch |
-| en | English |
-| en-au | English (Australia) |
-| en-gb | English (Great Britain) |
-| en-us | English (United States) |
-| eo | Esperanto |
-| fi | Finnish |
-| fr | Franch |
-| de | German |
-| el | Greek |
-| hi | Hindi |
-| hu | Hungarian |
-| is | Icelandic |
-| id | Indonesian |
-| it | Italian |
-| ja | Japanese |
-| ko | Korean |
-| la | Latin |
-| lv | Latvian |
-| mk | Macedonian |
-| no | Norwegian |
-| pl | Polish |
-| pt | Portuguese |
-| pt-br | Portuguese (Brazil) |
-| ro | Romanian |
-| ru | Russian |
-| sr | Serbian |
-| sk | Slovak |
-| es | Spanish |
-| es-es | Spanish (Spain) |
-| es-us | Spanish (United States) |
-| sw | Swahili |
-| sv | Swedish |
-| ta | Tamil |
-| th | Thai |
-| tr | Turkish |
-| vi | Vietnamese |
-| cy | Welsh |
-
-Action is:
-
-	/[Room name]/say/[phrase][/[language_code]][/[announce volume]]
-	/sayall/[phrase][/[language_code]][/[announce volume]]
 
 #### macOS say command
 On macOS the "say" command can be used for text to speech. If your installation runs on macOS you can activate the system TTS by giving an empty configuration:
