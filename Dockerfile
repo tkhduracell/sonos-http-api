@@ -1,4 +1,5 @@
 FROM node:24-alpine
+LABEL org.opencontainers.image.description="A simple node app for controlling a Sonos system with basic HTTP requests"
 WORKDIR /app
 COPY . .
 RUN apk add --no-cache curl \
