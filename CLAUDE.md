@@ -46,3 +46,15 @@ Added support for configuring the Sonos HTTP API via environment variables, enab
 - Second table for nested settings requiring JSON5 interpolation (auth, https, service credentials)
 - Docker example showing how to pass environment variables at runtime
 
+
+# Docker Image Description Label
+
+## Overview
+Added OCI-compliant description label to the Docker image for visibility on container registries like GHCR.
+
+## Changes
+
+### Dockerfile
+- Added `LABEL org.opencontainers.image.description` with the project description
+- This label is automatically included in published images and displayed on GHCR package page
+- Uses the description from package.json for consistency
