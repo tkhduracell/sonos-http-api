@@ -7,7 +7,9 @@ Added comprehensive Docker usage documentation to the README and improved the CI
 
 ### Docker Documentation (README.md)
 - **New DOCKER section** with build, run, and compose examples
-- Examples use the `latest` tag for simplicity
+- Examples reference the published image: `ghcr.io/tkhduracell/sonos-http-api:master`
+- Added `docker pull` command for easy access to pre-built images
+- Includes local build option for users who want to customize
 - Includes notes on `--net=host` requirement for Sonos UPnP multicast discovery
 - Both `docker run` and `docker-compose.yml` examples provided
 
@@ -44,5 +46,3 @@ Added support for configuring the Sonos HTTP API via environment variables, enab
 - Second table for nested settings requiring JSON5 interpolation (auth, https, service credentials)
 - Docker example showing how to pass environment variables at runtime
 
-## Future Work
-- Once CI successfully publishes images to ghcr.io, update README to reference the GHCR image path
