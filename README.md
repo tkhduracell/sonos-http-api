@@ -38,13 +38,17 @@ start the server by running
 DOCKER
 ------
 
-Build the image:
+A pre-built image is available on GitHub Container Registry:
+
+	docker pull ghcr.io/tkhduracell/sonos-http-api:master
+
+Or build locally:
 
 `docker build -t sonos-http-api .`
 
 ### docker run
 
-	docker run -d --net=host --name sonos sonos-http-api:latest
+	docker run -d --net=host --name sonos ghcr.io/tkhduracell/sonos-http-api:master
 
 ### docker compose
 
@@ -53,7 +57,7 @@ Create a `docker-compose.yml`:
 ```yaml
 services:
   sonos:
-    image: sonos-http-api:latest
+    image: ghcr.io/tkhduracell/sonos-http-api:master
     network_mode: host
     restart: unless-stopped
 ```
@@ -421,7 +425,7 @@ Numbers and booleans are auto-coerced. `SONOS_*` overrides take the highest prio
 
 Docker example with env vars:
 
-	docker run -d --net=host -e SONOS_PORT=8080 -e SONOS_OPENAI_KEY=sk-xxx sonos-http-api:latest
+	docker run -d --net=host -e SONOS_PORT=8080 -e SONOS_OPENAI_KEY=sk-xxx ghcr.io/tkhduracell/sonos-http-api:master
 
 **Complete environment variable reference:**
 
