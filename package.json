@@ -12,18 +12,20 @@
     "url": "https://github.com/jishi/node-sonos-http-api.git"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
     "anesidora": "^1.2.0",
     "aws-sdk": "^2.1299.0",
     "basic-auth": "~1.1.0",
+    "elevenlabs-node": "2.0.1",
     "fuse.js": "^6.4.1",
     "json5": "^0.5.1",
     "mime": "^1.4.1",
     "music-metadata": "^1.1.0",
-    "serve-static": "^1.15.0",
     "request-promise": "~1.0.2",
+    "serve-static": "^1.15.0",
     "sonos-discovery": "https://github.com/jishi/node-sonos-discovery/archive/v1.8.0.tar.gz",
     "wav-file-info": "0.0.8",
-    "elevenlabs-node": "2.0.1"
+    "zod": "^4.3.6"
   },
   "engines": {
     "node": ">=4"
