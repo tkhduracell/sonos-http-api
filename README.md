@@ -35,6 +35,35 @@ start the server by running
 
 `npm start`
 
+DOCKER
+------
+
+Build the image:
+
+`docker build -t sonos-http-api .`
+
+### docker run
+
+	docker run -d --net=host --name sonos sonos-http-api:latest
+
+### docker compose
+
+Create a `docker-compose.yml`:
+
+```yaml
+services:
+  sonos:
+    image: sonos-http-api:latest
+    network_mode: host
+    restart: unless-stopped
+```
+
+Then run:
+
+	docker compose up -d
+
+> **Note:** `--net=host` / `network_mode: host` is required for Sonos UPnP multicast discovery.
+
 Now you can control your system by invoking the following commands:
 
 	http://localhost:5005/zones
