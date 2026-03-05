@@ -392,6 +392,105 @@ Example:
 
 Override as it suits you.
 
+### Environment variables
+
+Configuration supports environment variables in two ways:
+
+**1. Interpolation in settings.json**
+
+Use `${ENV_VAR}` or `${ENV_VAR:-default}` in string values:
+
+```json5
+{
+  port: "${PORT:-5005}",
+  openaiKey: "${OPENAI_API_KEY}",
+}
+```
+
+**2. `SONOS_*` environment variable overrides (no file needed)**
+
+Any environment variable prefixed with `SONOS_` is mapped to a camelCase settings key:
+
+| Env var | Settings key |
+|---------|-------------|
+| `SONOS_PORT` | `port` |
+| `SONOS_OPENAI_KEY` | `openaiKey` |
+| `SONOS_ANNOUNCE_VOLUME` | `announceVolume` |
+
+Numbers and booleans are auto-coerced. `SONOS_*` overrides take the highest priority, followed by `settings.json`, then built-in defaults.
+
+Docker example with env vars:
+
+	docker run -d --net=host -e SONOS_PORT=8080 -e SONOS_OPENAI_KEY=sk-xxx sonos-http-api:latest
+
+**Complete environment variable reference:**
+
+| Environment variable | Settings key | Description | Default |
+|---|---|---|---|
+| `SONOS_PORT` | `port` | HTTP server port | `5005` |
+| `SONOS_IP` | `ip` | Listening IP address | `0.0.0.0` |
+| `SONOS_SECURE_PORT` | `securePort` | HTTPS server port | `5006` |
+| `SONOS_CACHE_DIR` | `cacheDir` | Cache directory path | `./cache` |
+| `SONOS_WEBROOT` | `webroot` | Static files directory | `./static` |
+| `SONOS_PRESET_DIR` | `presetDir` | Presets directory | `./presets` |
+| `SONOS_ANNOUNCE_VOLUME` | `announceVolume` | Default announcement volume (%) | `40` |
+| `SONOS_WEBHOOK` | `webhook` | Webhook URL for events | |
+| `SONOS_WEBHOOK_TYPE` | `webhookType` | Custom webhook type field name | `type` |
+| `SONOS_WEBHOOK_DATA` | `webhookData` | Custom webhook data field name | `data` |
+| `SONOS_WEBHOOK_HEADER_NAME` | `webhookHeaderName` | Custom webhook header name | |
+| `SONOS_WEBHOOK_HEADER_CONTENTS` | `webhookHeaderContents` | Custom webhook header value | |
+| `SONOS_OPENAI_KEY` | `openaiKey` | OpenAI API key (for TTS) | |
+| `SONOS_GEMINI_KEY` | `geminiKey` | Google Gemini API key | |
+| `SONOS_HOUSEHOLD` | `household` | Sonos household ID (multi-account networks) | |
+
+The following nested settings cannot be set via `SONOS_*` env vars directly. Use `${ENV_VAR}` interpolation in `settings.json` instead:
+
+| Settings path | Description | Example env var |
+|---|---|---|
+| `auth.username` | Basic auth username | `AUTH_USERNAME` |
+| `auth.password` | Basic auth password | `AUTH_PASSWORD` |
+| `https.key` | Path to TLS key file | `HTTPS_KEY` |
+| `https.cert` | Path to TLS cert file | `HTTPS_CERT` |
+| `https.pfx` | Path to PFX certificate file | `HTTPS_PFX` |
+| `https.passphrase` | PFX passphrase | `HTTPS_PASSPHRASE` |
+| `spotify.clientId` | Spotify application client ID | `SPOTIFY_CLIENT_ID` |
+| `spotify.clientSecret` | Spotify application client secret | `SPOTIFY_CLIENT_SECRET` |
+| `pandora.username` | Pandora account email | `PANDORA_USERNAME` |
+| `pandora.password` | Pandora account password | `PANDORA_PASSWORD` |
+| `elevenlabs.auth.apiKey` | ElevenLabs API key | `ELEVENLABS_API_KEY` |
+| `elevenlabs.config.stability` | ElevenLabs voice stability | |
+| `elevenlabs.config.similarityBoost` | ElevenLabs similarity boost | |
+| `elevenlabs.config.speakerBoost` | ElevenLabs speaker boost | |
+| `elevenlabs.config.style` | ElevenLabs style | |
+| `elevenlabs.config.modelId` | ElevenLabs model ID | |
+| `gemini.voice` | Gemini TTS voice name | `GEMINI_VOICE` |
+| `gemini.model` | Gemini TTS model | `GEMINI_MODEL` |
+| `macSay.voice` | macOS say voice name | `MAC_SAY_VOICE` |
+| `macSay.rate` | macOS say speech rate | `MAC_SAY_RATE` |
+| `aws.name` | AWS Polly voice name | `AWS_POLLY_VOICE` |
+| `aws.credentials.accessKeyId` | AWS access key ID | `AWS_ACCESS_KEY_ID` |
+| `aws.credentials.secretAccessKey` | AWS secret access key | `AWS_SECRET_ACCESS_KEY` |
+| `aws.credentials.region` | AWS region | `AWS_REGION` |
+| `library.randomQueueLimit` | Max tracks for random queue | `LIBRARY_RANDOM_QUEUE_LIMIT` |
+
+Example `settings.json` using interpolation for nested settings:
+
+```json5
+{
+  auth: {
+    username: "${AUTH_USERNAME}",
+    password: "${AUTH_PASSWORD}"
+  },
+  spotify: {
+    clientId: "${SPOTIFY_CLIENT_ID}",
+    clientSecret: "${SPOTIFY_CLIENT_SECRET}"
+  },
+  elevenlabs: {
+    auth: { apiKey: "${ELEVENLABS_API_KEY}" }
+  }
+}
+```
+
 Note for Spotify users!
 -----------------------
 

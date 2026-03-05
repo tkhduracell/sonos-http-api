@@ -24,10 +24,31 @@ var settings = {
   announceVolume: 40
 };
 
-// load user settings
+// load user settings (with ${ENV_VAR} interpolation)
 const settingsFileFullPath = path.resolve(__dirname, 'settings.json');
 const userSettings = tryLoadJson(settingsFileFullPath);
 merge(settings, userSettings);
+
+// apply SONOS_* environment variable overrides
+function snakeToCamel(str) {
+  return str.toLowerCase().replace(/_([a-z])/g, (_, c) => c.toUpperCase());
+}
+
+function coerceValue(value) {
+  if (value === 'true') return true;
+  if (value === 'false') return false;
+  const num = Number(value);
+  if (!isNaN(num) && value.trim() !== '') return num;
+  return value;
+}
+
+const SONOS_PREFIX = 'SONOS_';
+Object.keys(process.env)
+  .filter((key) => key.startsWith(SONOS_PREFIX) && key !== SONOS_PREFIX)
+  .forEach((key) => {
+    const settingsKey = snakeToCamel(key.slice(SONOS_PREFIX.length));
+    settings[settingsKey] = coerceValue(process.env[key]);
+  });
 
 logger.debug(settings);
 
