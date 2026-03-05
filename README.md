@@ -35,6 +35,37 @@ start the server by running
 
 `npm start`
 
+DOCKER
+------
+
+Build the image:
+
+`docker build -t sonos-http-api .`
+
+The current image digest is `sha256:783d99d1340209439803c9535dbb44209e739a313653b09fa38b3c14dce30fa5`.
+
+### docker run
+
+	docker run -d --net=host --name sonos sonos-http-api@sha256:783d99d1340209439803c9535dbb44209e739a313653b09fa38b3c14dce30fa5
+
+### docker compose
+
+Create a `docker-compose.yml`:
+
+```yaml
+services:
+  sonos:
+    image: sonos-http-api@sha256:783d99d1340209439803c9535dbb44209e739a313653b09fa38b3c14dce30fa5
+    network_mode: host
+    restart: unless-stopped
+```
+
+Then run:
+
+	docker compose up -d
+
+> **Note:** `--net=host` / `network_mode: host` is required for Sonos UPnP multicast discovery. The digest above is from a local build and will change when rebuilt or when a CI-published image becomes available.
+
 Now you can control your system by invoking the following commands:
 
 	http://localhost:5005/zones
