@@ -68,6 +68,49 @@ Then run:
 
 > **Note:** `--net=host` / `network_mode: host` is required for Sonos UPnP multicast discovery.
 
+MCP SERVER
+----------
+
+The server exposes an [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) endpoint at `/mcp`, allowing AI assistants like Claude to control your Sonos system directly.
+
+### Available tools
+
+| Tool | Description |
+|------|-------------|
+| `sonos_zones` | List all zones and rooms |
+| `sonos_state` | Get playback state for a room |
+| `sonos_play_control` | Play, pause, next, previous |
+| `sonos_seek` | Seek by time or track number |
+| `sonos_volume` | Set volume (room or group) |
+| `sonos_mute` | Mute/unmute (room or group) |
+| `sonos_say` | Text-to-speech announcement |
+| `sonos_favorite` | Play a Sonos favorite |
+| `sonos_playlist` | Play a Sonos playlist |
+| `sonos_group` | Join, add, or isolate speakers |
+| `sonos_sleep` | Set or cancel sleep timer |
+| `sonos_command` | Any action not covered above |
+
+### Claude Code
+
+```
+claude mcp add sonos --transport http http://localhost:5005/mcp
+```
+
+### Claude Desktop
+
+Add to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "sonos": {
+      "type": "url",
+      "url": "http://localhost:5005/mcp"
+    }
+  }
+}
+```
+
 Now you can control your system by invoking the following commands:
 
 	http://localhost:5005/zones

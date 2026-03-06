@@ -6,14 +6,29 @@ const auth = require('basic-auth');
 const SonosSystem = require('sonos-discovery');
 const logger = require('sonos-discovery/lib/helpers/logger');
 const SonosHttpAPI = require('./lib/sonos-http-api.js');
+const createMcpServer = require('./lib/mcp.js');
 const serveStatic = require('serve-static');
 const settings = require('./settings');
 
 const serve = new serveStatic(settings.webroot);
 const discovery = new SonosSystem(settings);
 const api = new SonosHttpAPI(discovery, settings);
+const mcpHandler = createMcpServer(api, discovery);
 
 var requestHandler = function (req, res) {
+  // MCP endpoint must be handled before serve-static consumes the request body
+  if (req.url === '/mcp') {
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept, Mcp-Session-Id');
+    if (req.method === 'OPTIONS') {
+      res.end();
+      return;
+    }
+    mcpHandler(req, res);
+    return;
+  }
+
   req.addListener('end', function () {
     serve(req, res, function (err) {
 
