@@ -7,7 +7,9 @@ Added comprehensive Docker usage documentation to the README and improved the CI
 
 ### Docker Documentation (README.md)
 - **New DOCKER section** with build, run, and compose examples
-- Examples use the `latest` tag for simplicity
+- Examples reference the published image: `ghcr.io/tkhduracell/sonos-http-api:master`
+- Added `docker pull` command for easy access to pre-built images
+- Includes local build option for users who want to customize
 - Includes notes on `--net=host` requirement for Sonos UPnP multicast discovery
 - Both `docker run` and `docker-compose.yml` examples provided
 
@@ -123,3 +125,15 @@ claude mcp add sonos --transport http http://localhost:5005/mcp
 - No session management needed (stateless HTTP model)
 - TTS audio files are served by existing static file server on the same port
 - All tool inputs are properly URL-encoded before dispatch to handle special characters in room names
+
+# Docker Image Description Label
+
+## Overview
+Added OCI-compliant description label to the Docker image for visibility on container registries like GHCR.
+
+## Changes
+
+### Dockerfile
+- Added `LABEL org.opencontainers.image.description` with the project description
+- This label is automatically included in published images and displayed on GHCR package page
+- Uses the description from package.json for consistency
